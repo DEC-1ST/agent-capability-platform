@@ -36,6 +36,11 @@ The public protocol only describes these capabilities. A future adapter must
 bind every request to the repository, workspace commit, policy version, scope,
 and expiry in `parameter_binding`.
 
+The repository includes `FakeGitHubAdapter` as an offline reference adapter.
+It validates fixtures, enforces repository references, returns defensive copies,
+and marks every observation with `side_effect: none`. It intentionally has no
+network client or mutation API.
+
 ## Credential boundary
 
 No GitHub token, App private key, webhook secret, installation ID, or raw API
