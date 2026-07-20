@@ -1,15 +1,16 @@
-"""Fail closed when public examples contain credential-like material."""
+"""Fail closed when tracked public repository content contains credentials."""
 
 from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_ROOTS = (
+FIXTURE_ROOTS = (
     REPOSITORY_ROOT / "examples",
     REPOSITORY_ROOT / "tests" / "vectors",
 )
@@ -54,6 +55,8 @@ class Finding:
 
 def _iter_files(roots: Iterable[Path]) -> Iterable[Path]:
     for root in roots:
+        if not root.is_absolute():
+            root = REPOSITORY_ROOT / root
         if root.is_file():
             yield root
         elif root.is_dir():
@@ -81,11 +84,23 @@ def scan_paths(roots: Iterable[Path]) -> list[Finding]:
     return findings
 
 
+def tracked_files() -> list[Path]:
+    """Return tracked and untracked-but-not-ignored repository files."""
+
+    result = subprocess.run(
+        ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z"],
+        cwd=REPOSITORY_ROOT,
+        check=True,
+        capture_output=True,
+    )
+    return [REPOSITORY_ROOT / Path(item) for item in result.stdout.decode().split("\0") if item]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("paths", nargs="*", type=Path)
     args = parser.parse_args()
-    roots = tuple(args.paths) or DEFAULT_ROOTS
+    roots = tuple(args.paths) or tracked_files()
     findings = scan_paths(roots)
     for finding in findings:
         try:
@@ -94,9 +109,9 @@ def main() -> int:
             display = Path("<external-test-input>")
         print(f"{display}: blocked by {finding.rule}")
     if findings:
-        print(f"repository_gate=failed findings={len(findings)}")
+        print(f"public_repository_gate=failed findings={len(findings)}")
         return 1
-    print("repository_gate=passed findings=0")
+    print("public_repository_gate=passed findings=0")
     return 0
 
 

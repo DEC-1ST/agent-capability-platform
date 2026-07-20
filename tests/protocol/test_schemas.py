@@ -70,6 +70,34 @@ class SchemaTests(unittest.TestCase):
         with self.assertRaises(IntegrityError):
             verify_document_integrity("capability.schema.json", capability)
 
+    def test_invalid_calendar_date_is_rejected_by_schema(self) -> None:
+        task = self._load("task.json")
+        task["created_at"] = "2026-02-31T00:00:00Z"
+        with self.assertRaises(IntegrityError):
+            verify_document_integrity("task.schema.json", task)
+
+    def test_invalid_uri_is_rejected_by_schema(self) -> None:
+        handoff = self._load("handoff.json")
+        handoff["artifacts"][0]["uri"] = "not-a-uri"
+        with self.assertRaises(IntegrityError):
+            verify_document_integrity("handoff.schema.json", handoff)
+
+    def test_duplicate_artifact_id_is_rejected(self) -> None:
+        handoff = self._load("handoff.json")
+        duplicate = dict(handoff["artifacts"][0])
+        duplicate["name"] = "other.txt"
+        handoff["artifacts"].append(duplicate)
+        with self.assertRaises(IntegrityError):
+            verify_document_integrity("handoff.schema.json", handoff)
+
+    def test_duplicate_resource_id_is_rejected(self) -> None:
+        capability = self._load("capability.json")
+        duplicate = dict(capability["scope"]["resources"][0])
+        duplicate["mode"] = "read"
+        capability["scope"]["resources"].append(duplicate)
+        with self.assertRaises(IntegrityError):
+            verify_document_integrity("capability.schema.json", capability)
+
     def test_audit_event_hash_uses_projection(self) -> None:
         event = self._load("audit-event.json")
         declared = event.pop("event_hash")
