@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:github-repository",
+  "title": "ACP Protocol v1 GitHub Repository",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "repository_id",
+    "provider",
+    "owner",
+    "name",
+    "default_branch",
+    "visibility",
+    "web_url",
+    "api_url",
+    "archived"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "repository_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "provider": { "const": "github" },
+    "owner": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 39,
+      "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "default_branch": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "pattern": "^[A-Za-z0-9._/-]+$"
+    },
+    "visibility": { "enum": ["public", "private", "internal"] },
+    "web_url": { "type": "string", "format": "uri", "maxLength": 2048 },
+    "api_url": { "type": "string", "format": "uri", "maxLength": 2048 },
+    "archived": { "type": "boolean" }
+  }
+}

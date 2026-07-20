@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:github-check-run",
+  "title": "ACP Protocol v1 GitHub Check Run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "check_run_id",
+    "repository_id",
+    "name",
+    "status",
+    "conclusion",
+    "head_commit",
+    "details_url"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "check_run_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "repository_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "name": { "type": "string", "minLength": 1, "maxLength": 255 },
+    "status": { "enum": ["queued", "in_progress", "completed"] },
+    "conclusion": {
+      "type": ["string", "null"],
+      "enum": ["success", "failure", "neutral", "cancelled", "skipped", "timed_out", "action_required", null]
+    },
+    "head_commit": { "$ref": "urn:acp:schema:v1:common#/$defs/gitCommit" },
+    "details_url": { "type": "string", "format": "uri", "maxLength": 2048 },
+    "started_at": {
+      "oneOf": [
+        { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+        { "type": "null" }
+      ]
+    },
+    "completed_at": {
+      "oneOf": [
+        { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+        { "type": "null" }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "const": "completed" } }, "required": ["status"] },
+      "then": {
+        "required": ["conclusion", "completed_at"],
+        "properties": {
+          "conclusion": { "type": "string" },
+          "completed_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "status": { "enum": ["queued", "in_progress"] } }, "required": ["status"] },
+      "then": { "properties": { "conclusion": { "type": "null" } } }
+    }
+  ]
+}

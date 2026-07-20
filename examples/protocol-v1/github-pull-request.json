@@ -1,0 +1,20 @@
+{
+  "protocol_version": "1.0",
+  "pull_request_id": "github.pr.5",
+  "repository_id": "github.dec-1st.agent-capability-platform",
+  "number": 5,
+  "state": "merged",
+  "title": "fix: harden protocol schema validation",
+  "head": {
+    "branch": "codex/schema-hardening-v1",
+    "commit": "d18b221600b59085896993d62931d60f97eb154b"
+  },
+  "base": {
+    "branch": "main",
+    "commit": "fc2453c000000000000000000000000000000000"
+  },
+  "web_url": "https://github.com/DEC-1ST/agent-capability-platform/pull/5",
+  "created_at": "2026-07-20T00:00:00Z",
+  "updated_at": "2026-07-20T00:00:00Z",
+  "draft": false
+}

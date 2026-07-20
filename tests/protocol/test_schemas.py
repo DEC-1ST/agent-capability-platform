@@ -46,6 +46,24 @@ class SchemaTests(unittest.TestCase):
             with self.subTest(filename=filename):
                 verify_document_integrity(schema, self._load(filename))
 
+    def test_github_resource_examples(self) -> None:
+        cases = {
+            "github-repository.json": "github-repository.schema.json",
+            "github-issue.json": "github-issue.schema.json",
+            "github-pull-request.json": "github-pull-request.schema.json",
+            "github-check-run.json": "github-check-run.schema.json",
+        }
+        for filename, schema in cases.items():
+            with self.subTest(filename=filename):
+                validate_document(schema, self._load(filename))
+
+    def test_github_check_run_requires_terminal_outcome(self) -> None:
+        check_run = self._load("github-check-run.json")
+        check_run["conclusion"] = None
+        check_run["completed_at"] = None
+        with self.assertRaises(ValueError):
+            validate_document("github-check-run.schema.json", check_run)
+
     def test_parameter_binding_external_pins(self) -> None:
         task = self._load("task.json")
         verify_document_integrity(

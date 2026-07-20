@@ -1,0 +1,12 @@
+{
+  "protocol_version": "1.0",
+  "check_run_id": "github.check.python-312",
+  "repository_id": "github.dec-1st.agent-capability-platform",
+  "name": "Python 3.12",
+  "status": "completed",
+  "conclusion": "success",
+  "head_commit": "fc2453c000000000000000000000000000000000",
+  "details_url": "https://github.com/DEC-1ST/agent-capability-platform/actions",
+  "started_at": "2026-07-20T00:00:00Z",
+  "completed_at": "2026-07-20T00:01:00Z"
+}
