@@ -1,0 +1,16 @@
+{
+  "valid": [
+    ["task", "created", "assigned"],
+    ["capability", "pending_approval", "active"],
+    ["approval", "approved", "consumed"],
+    ["lease", "active", "expired"],
+    ["handoff", "sealed", "verified"]
+  ],
+  "invalid": [
+    ["task", "completed", "running"],
+    ["capability", "revoked", "active"],
+    ["approval", "rejected", "approved"],
+    ["lease", "expired", "active"],
+    ["handoff", "accepted", "draft"]
+  ]
+}

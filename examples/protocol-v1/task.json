@@ -1,0 +1,30 @@
+{
+  "protocol_version": "1.0",
+  "task_id": "task-example-001",
+  "state": "created",
+  "objective": "Validate the public protocol example without live operations.",
+  "constraints": [
+    "no-live-operations",
+    "no-secrets"
+  ],
+  "requested_by": {
+    "actor_id": "owner-example",
+    "role": "owner"
+  },
+  "created_at": "2026-01-01T00:00:00Z",
+  "parameter_binding": {
+    "protocol_version": "1.0",
+    "task_id": "task-example-001",
+    "capability_id": "capability-example-001",
+    "workspace_id": "workspace-example-001",
+    "workspace_commit": "0123456789abcdef0123456789abcdef01234567",
+    "request_id": "request-example-001",
+    "approval_id": "approval-example-001",
+    "policy_version": "policy-v1",
+    "scope_hash": "sha256:284033d6a7a54a8b14f098b1be07da094a4829fa29eefa1735ee2be24ad3f4aa",
+    "adapter_profile": "example-local",
+    "not_before": "2026-01-01T00:00:00Z",
+    "expires_at": "2026-01-01T01:00:00Z"
+  },
+  "parameter_binding_hash": "sha256:43335140fbd48543e8916e08f50f7a1477aa86c23153e84a210b2a9815f30ab7"
+}

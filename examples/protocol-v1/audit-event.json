@@ -1,0 +1,22 @@
+{
+  "protocol_version": "1.0",
+  "event_id": "event-example-001",
+  "event_type": "capability.active",
+  "sequence": 1,
+  "occurred_at": "2026-01-01T00:00:05Z",
+  "actor": {
+    "actor_id": "broker-example",
+    "role": "broker"
+  },
+  "subject": {
+    "kind": "capability",
+    "id": "capability-example-001"
+  },
+  "parameter_binding_hash": "sha256:43335140fbd48543e8916e08f50f7a1477aa86c23153e84a210b2a9815f30ab7",
+  "previous_event_hash": null,
+  "details": {
+    "from_state": "pending_approval",
+    "to_state": "active"
+  },
+  "event_hash": "sha256:60059ba9531ac341be9e017c50718f2482e24d59eb53dbbe09bec5297f9f69f1"
+}

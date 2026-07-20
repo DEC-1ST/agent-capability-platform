@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=75"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-capability-protocol"
+version = "0.1.0a0"
+description = "Canonical protocol contracts for scoped multi-agent capabilities."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "DEC-1ST" }]
+dependencies = ["jsonschema>=4.23,<5"]
+
+[project.urls]
+Repository = "https://github.com/DEC-1ST/agent-capability-platform"
+
+[tool.setuptools]
+package-dir = { "" = "packages/agent-protocol/src" }
+
+[tool.setuptools.packages.find]
+where = ["packages/agent-protocol/src"]
+
+[tool.setuptools.package-data]
+agent_capability_protocol = ["schemas/v1/*.json"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

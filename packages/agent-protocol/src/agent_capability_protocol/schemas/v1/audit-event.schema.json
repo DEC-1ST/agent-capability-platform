@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:audit-event",
+  "title": "ACP Protocol v1 Audit Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "event_id",
+    "event_type",
+    "sequence",
+    "occurred_at",
+    "actor",
+    "subject",
+    "parameter_binding_hash",
+    "previous_event_hash",
+    "details",
+    "event_hash"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "event_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "event_type": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "sequence": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "occurred_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "actor": { "$ref": "urn:acp:schema:v1:common#/$defs/actor" },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["task", "capability", "approval", "lease", "handoff"] },
+        "id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" }
+      }
+    },
+    "parameter_binding_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" },
+    "previous_event_hash": {
+      "oneOf": [
+        { "$ref": "urn:acp:schema:v1:common#/$defs/digest" },
+        { "type": "null" }
+      ]
+    },
+    "details": { "type": "object", "additionalProperties": true },
+    "event_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" }
+  }
+}
