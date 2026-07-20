@@ -7,6 +7,7 @@ from .canonical import (
     canonical_hash,
     loads_strict,
 )
+from .github_fake import CapabilityObservation, FakeGitHubAdapter, GitHubCapabilityError
 from .integrity import (
     IntegrityError,
     hash_projection,
@@ -19,6 +20,9 @@ from .validation import SchemaValidationError, validate_document, validate_schem
 
 __all__ = [
     "CanonicalizationError",
+    "CapabilityObservation",
+    "FakeGitHubAdapter",
+    "GitHubCapabilityError",
     "IntegrityError",
     "InvalidTransitionError",
     "SchemaValidationError",
