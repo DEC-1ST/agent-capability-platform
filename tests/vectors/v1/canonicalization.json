@@ -1,0 +1,11 @@
+{
+  "profile": "acp-canonical-json-v1",
+  "cases": [
+    {
+      "name": "nested-object-key-order",
+      "input_json": "{\"z\":[3,2,1],\"a\":{\"text\":\"alpha\",\"enabled\":true},\"n\":null}",
+      "canonical_json": "{\"a\":{\"enabled\":true,\"text\":\"alpha\"},\"n\":null,\"z\":[3,2,1]}",
+      "digest": "sha256:13fcc9d5be8a0ef413a491072c8e498237ff3727c537b6c2c8d96c39b666315b"
+    }
+  ]
+}

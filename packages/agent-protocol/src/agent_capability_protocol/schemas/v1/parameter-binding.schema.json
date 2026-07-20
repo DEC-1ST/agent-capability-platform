@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:parameter-binding",
+  "title": "ACP Protocol v1 Parameter Binding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "task_id",
+    "capability_id",
+    "workspace_id",
+    "workspace_commit",
+    "request_id",
+    "approval_id",
+    "policy_version",
+    "scope_hash",
+    "adapter_profile",
+    "not_before",
+    "expires_at"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "task_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "capability_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "workspace_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "workspace_commit": { "$ref": "urn:acp:schema:v1:common#/$defs/gitCommit" },
+    "request_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "approval_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "policy_version": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "scope_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" },
+    "adapter_profile": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "not_before": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "expires_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:lease",
+  "title": "ACP Protocol v1 Lease",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "lease_id",
+    "capability_id",
+    "approval_id",
+    "state",
+    "holder",
+    "issued_at",
+    "not_before",
+    "expires_at",
+    "renewal_policy",
+    "parameter_binding",
+    "parameter_binding_hash"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "lease_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "capability_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "approval_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "state": { "type": "string", "enum": ["pending", "active", "released", "revoked", "expired"] },
+    "holder": { "$ref": "urn:acp:schema:v1:common#/$defs/actor" },
+    "issued_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "not_before": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "expires_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "renewal_policy": { "type": "string", "enum": ["denied", "manual_approval"] },
+    "parameter_binding": { "$ref": "urn:acp:schema:v1:parameter-binding" },
+    "parameter_binding_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" }
+  }
+}

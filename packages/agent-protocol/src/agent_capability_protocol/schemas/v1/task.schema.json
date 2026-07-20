@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:task",
+  "title": "ACP Protocol v1 Task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "task_id",
+    "state",
+    "objective",
+    "constraints",
+    "requested_by",
+    "created_at",
+    "parameter_binding",
+    "parameter_binding_hash"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "task_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "state": {
+      "type": "string",
+      "enum": [
+        "created",
+        "assigned",
+        "running",
+        "review_required",
+        "changes_requested",
+        "passed",
+        "approval_required",
+        "blocked",
+        "completed",
+        "cancelled"
+      ]
+    },
+    "objective": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 512 },
+      "uniqueItems": true,
+      "maxItems": 128
+    },
+    "requested_by": { "$ref": "urn:acp:schema:v1:common#/$defs/actor" },
+    "created_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "parameter_binding": { "$ref": "urn:acp:schema:v1:parameter-binding" },
+    "parameter_binding_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" }
+  }
+}

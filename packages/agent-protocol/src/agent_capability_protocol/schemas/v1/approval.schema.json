@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:approval",
+  "title": "ACP Protocol v1 Approval",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "approval_id",
+    "request_id",
+    "state",
+    "decision",
+    "request_hash",
+    "parameter_binding",
+    "parameter_binding_hash",
+    "approver",
+    "decided_at",
+    "proof"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "approval_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "request_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "state": {
+      "type": "string",
+      "enum": ["pending", "approved", "rejected", "consumed", "revoked", "expired", "superseded"]
+    },
+    "decision": { "type": ["string", "null"], "enum": ["approved", "rejected", null] },
+    "request_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" },
+    "parameter_binding": { "$ref": "urn:acp:schema:v1:parameter-binding" },
+    "parameter_binding_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" },
+    "approver": {
+      "oneOf": [
+        { "$ref": "urn:acp:schema:v1:common#/$defs/actor" },
+        { "type": "null" }
+      ]
+    },
+    "decided_at": {
+      "oneOf": [
+        { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+        { "type": "null" }
+      ]
+    },
+    "proof": {
+      "oneOf": [
+        { "$ref": "urn:acp:schema:v1:common#/$defs/proof" },
+        { "type": "null" }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "state": { "const": "pending" } }, "required": ["state"] },
+      "then": {
+        "properties": {
+          "decision": { "type": "null" },
+          "approver": { "type": "null" },
+          "decided_at": { "type": "null" },
+          "proof": { "type": "null" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "state": { "enum": ["approved", "consumed", "revoked", "superseded"] } }, "required": ["state"] },
+      "then": {
+        "properties": {
+          "decision": { "const": "approved" },
+          "approver": { "$ref": "urn:acp:schema:v1:common#/$defs/actor" },
+          "decided_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+          "proof": { "$ref": "urn:acp:schema:v1:common#/$defs/proof" }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "state": { "const": "rejected" } }, "required": ["state"] },
+      "then": {
+        "properties": {
+          "decision": { "const": "rejected" },
+          "approver": { "$ref": "urn:acp:schema:v1:common#/$defs/actor" },
+          "decided_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+          "proof": { "$ref": "urn:acp:schema:v1:common#/$defs/proof" }
+        }
+      }
+    }
+  ]
+}

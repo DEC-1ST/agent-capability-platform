@@ -1,0 +1,3 @@
+# CI tools are pinned here so workflow updates are explicit and reviewable.
+jsonschema==4.26.0
+ruff==0.15.21

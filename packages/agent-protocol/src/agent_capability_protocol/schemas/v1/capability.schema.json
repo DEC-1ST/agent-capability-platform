@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:capability",
+  "title": "ACP Protocol v1 Capability",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "capability_id",
+    "state",
+    "kind",
+    "scope",
+    "scope_hash",
+    "requested_by",
+    "requested_at",
+    "parameter_binding",
+    "parameter_binding_hash"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "capability_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "state": {
+      "type": "string",
+      "enum": [
+        "requested",
+        "pending_approval",
+        "active",
+        "released",
+        "revoked",
+        "expired",
+        "denied",
+        "cancelled"
+      ]
+    },
+    "kind": {
+      "type": "string",
+      "enum": ["workspace", "process", "network", "tool", "platform", "composite"]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actions", "resources", "network_policy", "constraints"],
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "resources": {
+          "type": "array",
+          "items": { "$ref": "urn:acp:schema:v1:common#/$defs/resource" },
+          "minItems": 1
+        },
+        "network_policy": {
+          "type": "string",
+          "enum": ["none", "loopback", "restricted"]
+        },
+        "constraints": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 512 },
+          "uniqueItems": true
+        }
+      }
+    },
+    "scope_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" },
+    "requested_by": { "$ref": "urn:acp:schema:v1:common#/$defs/actor" },
+    "requested_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "parameter_binding": { "$ref": "urn:acp:schema:v1:parameter-binding" },
+    "parameter_binding_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" }
+  }
+}

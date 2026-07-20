@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:canonical-envelope",
+  "title": "ACP Protocol v1 Canonical Envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "message_id",
+    "message_type",
+    "issued_at",
+    "issuer",
+    "payload_schema",
+    "parameter_binding",
+    "parameter_binding_hash",
+    "payload",
+    "proof"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "message_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "message_type": {
+      "type": "string",
+      "enum": ["task", "capability", "approval", "lease", "audit_event", "handoff"]
+    },
+    "issued_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "issuer": { "$ref": "urn:acp:schema:v1:common#/$defs/actor" },
+    "payload_schema": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "parameter_binding": { "$ref": "urn:acp:schema:v1:parameter-binding" },
+    "parameter_binding_hash": { "$ref": "urn:acp:schema:v1:common#/$defs/digest" },
+    "payload": { "type": "object" },
+    "proof": {
+      "oneOf": [
+        { "$ref": "urn:acp:schema:v1:common#/$defs/proof" },
+        { "type": "null" }
+      ]
+    }
+  }
+}
