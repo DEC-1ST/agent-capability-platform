@@ -42,6 +42,10 @@ by the enclosing document. The digest is also an input to approval signatures,
 artifact manifests, and handoff evidence. A caller-supplied value must not
 replace the independently expected binding during verification.
 
+Resource IDs are unique within a capability scope, and artifact IDs are unique
+within a handoff manifest. Consumers must reject duplicate IDs even when the
+surrounding objects have different metadata.
+
 ## Proof versus structure
 
 JSON Schema proves shape. The protocol reference implementation additionally

@@ -8,12 +8,15 @@ from pathlib import Path
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPOSITORY_ROOT))
 
-from tools.repository_gate import DEFAULT_ROOTS, scan_paths  # noqa: E402
+from tools.repository_gate import FIXTURE_ROOTS, scan_paths, tracked_files  # noqa: E402
 
 
 class RepositoryGateTests(unittest.TestCase):
     def test_public_vectors_are_clean(self) -> None:
-        self.assertEqual(scan_paths(DEFAULT_ROOTS), [])
+        self.assertEqual(scan_paths(FIXTURE_ROOTS), [])
+
+    def test_tracked_repository_content_is_clean(self) -> None:
+        self.assertEqual(scan_paths(tracked_files()), [])
 
     def test_credential_like_fixture_is_rejected_without_echoing_value(self) -> None:
         synthetic = "AK" + "IA" + ("A" * 16)

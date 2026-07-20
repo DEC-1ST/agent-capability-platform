@@ -50,7 +50,8 @@
         "resources": {
           "type": "array",
           "items": { "$ref": "urn:acp:schema:v1:common#/$defs/resource" },
-          "minItems": 1
+          "minItems": 1,
+          "uniqueItems": true
         },
         "network_policy": {
           "type": "string",

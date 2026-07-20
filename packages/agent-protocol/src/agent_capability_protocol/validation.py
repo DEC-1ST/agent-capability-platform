@@ -3,13 +3,27 @@
 from __future__ import annotations
 
 import json
+from datetime import datetime
 from functools import lru_cache
 from importlib.resources import files
 from typing import Any
 
-from jsonschema import Draft202012Validator
+from jsonschema import Draft202012Validator, FormatChecker
 from jsonschema.exceptions import SchemaError, ValidationError
 from referencing import Registry, Resource
+
+ACP_FORMAT_CHECKER = FormatChecker()
+
+
+@ACP_FORMAT_CHECKER.checks("date-time")
+def _is_valid_acp_timestamp(value: object) -> bool:
+    if not isinstance(value, str):
+        return False
+    try:
+        datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
+    except ValueError:
+        return False
+    return True
 
 
 class SchemaValidationError(ValueError):
@@ -51,7 +65,11 @@ def validate_document(schema_name: str, document: Any) -> None:
     if schema is None:
         raise SchemaValidationError(f"unknown schema: {schema_name}")
     try:
-        Draft202012Validator(schema, registry=_registry()).validate(document)
+        Draft202012Validator(
+            schema,
+            registry=_registry(),
+            format_checker=ACP_FORMAT_CHECKER,
+        ).validate(document)
     except ValidationError as exc:
         path = ".".join(str(item) for item in exc.absolute_path) or "$"
         raise SchemaValidationError(f"schema validation failed at {path}: {exc.message}") from exc

@@ -39,6 +39,15 @@ def _parse_timestamp(value: str) -> datetime:
         raise IntegrityError("invalid UTC timestamp") from exc
 
 
+def _require_unique_ids(items: list[dict[str, Any]], *, field: str, label: str) -> None:
+    seen: set[str] = set()
+    for item in items:
+        identifier = item.get(field)
+        if not isinstance(identifier, str) or identifier in seen:
+            raise IntegrityError(f"duplicate {label} identifier")
+        seen.add(identifier)
+
+
 def verify_parameter_binding(
     document: dict[str, Any],
     *,
@@ -75,6 +84,15 @@ def verify_document_integrity(
         validate_document(schema_name, document)
     except SchemaValidationError as exc:
         raise IntegrityError(str(exc)) from exc
+
+    if schema_name == "capability.schema.json":
+        _require_unique_ids(
+            document["scope"]["resources"],
+            field="resource_id",
+            label="resource",
+        )
+    elif schema_name == "handoff.schema.json":
+        _require_unique_ids(document["artifacts"], field="artifact_id", label="artifact")
 
     if "parameter_binding" in document:
         verify_parameter_binding(document, expected=expected_binding)
