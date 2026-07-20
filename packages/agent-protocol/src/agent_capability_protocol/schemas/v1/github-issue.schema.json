@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:acp:schema:v1:github-issue",
+  "title": "ACP Protocol v1 GitHub Issue",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "issue_id",
+    "repository_id",
+    "number",
+    "state",
+    "title",
+    "author",
+    "web_url",
+    "created_at",
+    "updated_at",
+    "labels"
+  ],
+  "properties": {
+    "protocol_version": { "const": "1.0" },
+    "issue_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "repository_id": { "$ref": "urn:acp:schema:v1:common#/$defs/identifier" },
+    "number": { "type": "integer", "minimum": 1 },
+    "state": { "enum": ["open", "closed"] },
+    "title": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "author": { "$ref": "urn:acp:schema:v1:common#/$defs/actor" },
+    "web_url": { "type": "string", "format": "uri", "maxLength": 2048 },
+    "created_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "updated_at": { "$ref": "urn:acp:schema:v1:common#/$defs/timestamp" },
+    "labels": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1, "maxLength": 100 },
+      "uniqueItems": true,
+      "maxItems": 100
+    }
+  }
+}

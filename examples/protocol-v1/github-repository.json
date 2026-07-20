@@ -1,0 +1,12 @@
+{
+  "protocol_version": "1.0",
+  "repository_id": "github.dec-1st.agent-capability-platform",
+  "provider": "github",
+  "owner": "DEC-1ST",
+  "name": "agent-capability-platform",
+  "default_branch": "main",
+  "visibility": "public",
+  "web_url": "https://github.com/DEC-1ST/agent-capability-platform",
+  "api_url": "https://api.github.com/repos/DEC-1ST/agent-capability-platform",
+  "archived": false
+}
